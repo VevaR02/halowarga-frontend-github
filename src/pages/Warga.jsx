@@ -360,7 +360,7 @@ const Warga = ({ user, initialSearch }) => {
                                         {/* Actions & Expand */}
                                         <div className="flex items-center gap-2 shrink-0">
                                             {hasAccess && (
-                                                <div className="hidden sm:flex gap-1">
+                                                <div className="flex gap-1">
                                                     {canEdit && (
                                                         <button onClick={(e) => { e.stopPropagation(); handleEdit(kepala); }}
                                                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition">
