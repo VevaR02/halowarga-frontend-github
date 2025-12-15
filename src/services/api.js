@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://halowarga-backend-github.onrender.com/api' });
+const API = axios.create({ baseURL: 'http://localhost:3000/api' });
 
 
 export const loginUser = async (creds) => (await API.post('/login', creds)).data;
@@ -75,8 +75,8 @@ export const getKasChart = async (level, rw, rt) => {
     return (await API.get(`/kas/chart${queryString}`)).data.data;
 };
 
-export const createKas = async (data) => (await API.post('/kas', data)).data;
-export const deleteKas = async (id) => (await API.delete(`/kas/${id}`)).data;
+export const createKas = async (data, user) => (await API.post('/kas', { ...data, user_id: user?.id })).data;
+export const deleteKas = async (id, user) => (await API.delete(`/kas/${id}?user_id=${user?.id}`)).data;
 
 export const getRWListFromCitizens = async () => (await API.get('/kas/rw-from-citizens')).data.data;
 export const getRTListFromCitizens = async (rw) => (await API.get(`/kas/rt-from-citizens/${rw}`)).data.data;
@@ -96,17 +96,17 @@ export const deleteAspirasi = async (id, userId) => {
 // Info functions
 export const getAllInfo = async () => (await API.get('/info')).data.data;
 export const getInfoById = async (id) => (await API.get(`/info/${id}`)).data.data;
-export const createInfo = async (data) => (await API.post('/info', data)).data;
-export const updateInfo = async (id, data) => {
-    const response = await API.put(`/info/${id}`, data);
+export const createInfo = async (data, user) => (await API.post('/info', { ...data, user_id: user?.id })).data;
+export const updateInfo = async (id, data, user) => {
+    const response = await API.put(`/info/${id}`, { ...data, user_id: user?.id });
     return response.data;
 };
-export const deleteInfo = async (id) => (await API.delete(`/info/${id}`)).data;
+export const deleteInfo = async (id, user) => (await API.delete(`/info/${id}?user_id=${user?.id}`)).data;
 
 // User functions
 export const getUsers = async () => (await API.get('/users')).data.data;
-export const createUser = async (data) => (await API.post('/users', data)).data;
-export const updateUser = async (id, data) => (await API.put(`/users/${id}`, data)).data;
-export const deleteUser = async (id) => (await API.delete(`/users/${id}`)).data;
+export const createUser = async (data, user) => (await API.post('/users', { ...data, user_id: user?.id })).data;
+export const updateUser = async (id, data, user) => (await API.put(`/users/${id}`, { ...data, user_id: user?.id })).data;
+export const deleteUser = async (id, user) => (await API.delete(`/users/${id}?user_id=${user?.id}`)).data;
 
 export const getAuditLogs = async () => (await API.get('/audit')).data.data;

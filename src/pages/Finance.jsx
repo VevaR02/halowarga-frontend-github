@@ -135,7 +135,7 @@ const Finance = ({ userRole, user }) => {
                 rw_number: activeLevel !== 'desa' ? selectedRW : null,
                 rt_number: activeLevel === 'rt' ? selectedRT : null
             };
-            await createKas(payload);
+            await createKas(payload, user);
             setForm({ type: 'in', amount: '', description: '', date: '' });
             setShowForm(false);
             alert("Transaksi berhasil disimpan!");
@@ -151,7 +151,7 @@ const Finance = ({ userRole, user }) => {
             return;
         }
         if (window.confirm("Hapus data ini?")) {
-            await deleteKas(id);
+            await deleteKas(id, user);
             loadData();
         }
     };

@@ -73,7 +73,7 @@ const App = () => {
          case 'dashboard': return <Dashboard userRole={user.role} />;
          case 'warga': return <Warga userRole={user.role} initialSearch={globalSearchTerm} user={user} />;
          case 'finance': return <Finance userRole={user.role} user={user} />;
-         case 'info': return <InfoPublik userRole={user.role} userName={user.full_name} onViewDetail={handleViewInfoDetail} />;
+         case 'info': return <InfoPublik userRole={user.role} userName={user.full_name} user={user} onViewDetail={handleViewInfoDetail} />;
          case 'info-detail':
             return <InfoDetail
                info={selectedInfo}
@@ -91,7 +91,7 @@ const App = () => {
             />;
          case 'audit': return <AuditLog />;
          case 'help': return <Help />;
-         case 'users': return ['admin', 'desa'].includes(user.role) ? <UsersPage /> : <div className="p-4 text-red-500">Akses Ditolak</div>;
+         case 'users': return ['admin', 'desa'].includes(user.role) ? <UsersPage user={user} /> : <div className="p-4 text-red-500">Akses Ditolak</div>;
          default: return <Dashboard userRole={user.role} />;
       }
    };

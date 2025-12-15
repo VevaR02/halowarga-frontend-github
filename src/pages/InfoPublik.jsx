@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, User, Trash2, Plus, Edit, X, Save, ArrowRight, Newspaper } from 'lucide-react';
 import { getAllInfo, createInfo, deleteInfo, updateInfo } from '../services/api';
 
-const InfoPublik = ({ userRole, userName, onViewDetail }) => {
+const InfoPublik = ({ userRole, userName, user, onViewDetail }) => {
    const [news, setNews] = useState([]);
 
    const initialForm = { title: '', content: '', category: 'Umum', date: new Date().toISOString().split('T')[0] };
@@ -38,10 +38,10 @@ const InfoPublik = ({ userRole, userName, onViewDetail }) => {
       e.preventDefault();
       try {
          if (editId) {
-            await updateInfo(editId, { ...form, author: userName });
+            await updateInfo(editId, { ...form, author: userName }, user);
             alert("Berita berhasil diperbarui!");
          } else {
-            await createInfo({ ...form, author: userName });
+            await createInfo({ ...form, author: userName }, user);
             alert("Berita berhasil diterbitkan!");
          }
          handleCancel();
@@ -54,7 +54,7 @@ const InfoPublik = ({ userRole, userName, onViewDetail }) => {
 
    const handleDelete = async (id) => {
       if (confirm("Yakin ingin menghapus berita ini?")) {
-         await deleteInfo(id);
+         await deleteInfo(id, user);
          loadInfo();
       }
    };
