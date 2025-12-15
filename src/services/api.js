@@ -15,6 +15,16 @@ export const getWargaList = async (user) => {
     return response.data.data;
 };
 
+export const getHeadsOfFamily = async () => {
+    const response = await API.get('/warga/heads');
+    return response.data.data;
+};
+
+export const getFamilyMembers = async (no_kk) => {
+    const response = await API.get(`/warga/family/${no_kk}`);
+    return response.data.data;
+};
+
 export const createWarga = async (data, user) => {
     const payload = {
         ...data,
@@ -46,10 +56,32 @@ export const deleteWarga = async (id, user) => {
     return response.data;
 };
 
-export const getAllKas = async () => (await API.get('/kas')).data.data;
+// Kas functions
+export const getAllKas = async (level, rw, rt) => {
+    let params = [];
+    if (level) params.push(`level=${level}`);
+    if (rw) params.push(`rw=${rw}`);
+    if (rt) params.push(`rt=${rt}`);
+    const queryString = params.length > 0 ? `?${params.join('&')}` : '';
+    return (await API.get(`/kas${queryString}`)).data.data;
+};
+
+export const getKasChart = async (level, rw, rt) => {
+    let params = [];
+    if (level) params.push(`level=${level}`);
+    if (rw) params.push(`rw=${rw}`);
+    if (rt) params.push(`rt=${rt}`);
+    const queryString = params.length > 0 ? `?${params.join('&')}` : '';
+    return (await API.get(`/kas/chart${queryString}`)).data.data;
+};
+
 export const createKas = async (data) => (await API.post('/kas', data)).data;
 export const deleteKas = async (id) => (await API.delete(`/kas/${id}`)).data;
 
+export const getRWListFromCitizens = async () => (await API.get('/kas/rw-from-citizens')).data.data;
+export const getRTListFromCitizens = async (rw) => (await API.get(`/kas/rt-from-citizens/${rw}`)).data.data;
+
+// Aspirasi functions
 export const getAllAspirasi = async () => (await API.get('/aspirasi')).data.data;
 export const createAspirasi = async (data) => (await API.post('/aspirasi', data)).data;
 export const updateAspirasiStatus = async (id, status, userId) => {
@@ -61,7 +93,9 @@ export const deleteAspirasi = async (id, userId) => {
     return response.data;
 };
 
+// Info functions
 export const getAllInfo = async () => (await API.get('/info')).data.data;
+export const getInfoById = async (id) => (await API.get(`/info/${id}`)).data.data;
 export const createInfo = async (data) => (await API.post('/info', data)).data;
 export const updateInfo = async (id, data) => {
     const response = await API.put(`/info/${id}`, data);
@@ -69,6 +103,7 @@ export const updateInfo = async (id, data) => {
 };
 export const deleteInfo = async (id) => (await API.delete(`/info/${id}`)).data;
 
+// User functions
 export const getUsers = async () => (await API.get('/users')).data.data;
 export const createUser = async (data) => (await API.post('/users', data)).data;
 export const updateUser = async (id, data) => (await API.put(`/users/${id}`, data)).data;
